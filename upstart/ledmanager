@@ -1,0 +1,6 @@
+start on started java-serviceboot
+
+script
+	/usr/bin/luna-helper 'luna://com.palm.vm/launch' '{"serviceName":"net.vertigostudios.ledmanager","className":"net.vertigostudios.ledmanager"}'
+end script
+respawn
