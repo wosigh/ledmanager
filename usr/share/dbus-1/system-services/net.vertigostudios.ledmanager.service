@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=net.vertigostudios.ledmanager
-Exec=/usr/bin/luna-helper 'luna://com.palm.vm/launch' '{"serviceName":"net.vertigostudios.ledmanager","className":"net.vertigostudios.LEDManager"}'
