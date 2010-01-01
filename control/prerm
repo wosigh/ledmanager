@@ -1,0 +1,15 @@
+#!/bin/sh
+
+PID="net.vertigostudios.ledmanager"
+
+# Stop the service
+/sbin/stop ${PID}
+
+# Remove the java dbus service
+rm -f /usr/lib/luna/java/${PID}.jar
+rm -f /usr/share/dbus-1/system-services/${PID}.service
+
+# Remove the upstart script
+rm -f /etc/event.d/${PID}
+
+exit 0
