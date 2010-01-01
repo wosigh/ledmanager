@@ -88,12 +88,17 @@ public void flameOn(ServiceMessage msg) throws JSONException, LSException, IOExc
     catch (Exception err) {
     }
   
-      Process p = null;
-      //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
-      p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
-      //p.waitFor();
-      //msg.respond("Flame on");
-  }
+    Process p = null;
+    //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
+    p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
+    //p.waitFor();
+    //msg.respond("Flame on");
+
+    JSONObject reply = new JSONObject();
+    reply.put("returnValue",true);
+    msg.respond(reply.toString());
+
+}
 
 @LunaServiceThread.PublicMethod
   public void flameOff(ServiceMessage msg) throws JSONException, LSException, IOException, InterruptedException {
@@ -116,8 +121,22 @@ public void flameOn(ServiceMessage msg) throws JSONException, LSException, IOExc
 
     }
 
-      Process p = null;
-      //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
-      p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
-  }
+    Process p = null;
+    //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
+    p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
+
+    JSONObject reply = new JSONObject();
+    reply.put("returnValue",true);
+    msg.respond(reply.toString());
+      
 }
+
+@LunaServiceThread.PublicMethod
+    public void status(ServiceMessage msg) throws JSONException, LSException {
+    JSONObject reply = new JSONObject();
+    reply.put("returnValue",true);
+    msg.respond(reply.toString());
+}
+
+}
+
