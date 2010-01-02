@@ -16,4 +16,27 @@ cp $IPKG_OFFLINE_ROOT/usr/share/dbus-1/system-services/${PID}.service /usr/share
 rm -f /etc/event.d/${PID}
 cp $IPKG_OFFLINE_ROOT/etc/event.d/${PID} /etc/event.d/${PID}
 
+# Remove obsolete packages
+/usr/bin/ipkg -o /var remove com.pregame.prelease
+/usr/bin/ipkg -o /media/cryptofs/apps remove com.pregame.prelease
+/usr/bin/ipkg -o /var remove com.pregame.app.flashlight
+/usr/bin/ipkg -o /media/cryptofs/apps remove com.pregame.app.flashlight
+
+# Remove obsolete versions that were manually installed
+rm -f /etc/event.d/prelease
+rm -f /var/etc/event.d/prelease
+rm -f /media/cryptofs/apps/etc/event.d/prelease
+rm -f /usr/lib/luna/java/Prelease.jar
+rm -f /var/usr/lib/luna/java/Prelease.jar
+rm -f /media/cryptofs/apps/usr/lib/luna/java/Prelease.jar
+rm -f /usr/share/dbus-1/system-services/com.pregame.prelease.service
+rm -f /var/usr/share/dbus-1/system-services/com.pregame.prelease.service
+rm -f /media/cryptofs/apps/usr/share/dbus-1/system-services/com.pregame.prelease.service
+rm -rf /usr/palm/applications/com.pregame.prelease
+rm -rf /var/usr/palm/applications/com.pregame.prelease
+rm -rf /media/cryptofs/apps/usr/palm/applications/com.pregame.prelease
+rm -rf /usr/palm/applications/com.pregame.app.flashlight
+rm -rf /var/usr/palm/applications/com.pregame.app.flashlight
+rm -rf /media/cryptofs/apps/usr/palm/applications/com.pregame.app.flashlight
+
 exit 0
