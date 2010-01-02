@@ -3,7 +3,7 @@
 PID="net.vertigostudios.ledmanager"
 
 if [ -z "$IPKG_OFFLINE_ROOT" ]; then
-  IPKG_OFFLINE_ROOT=/media/cryptofs/apps
+  IPKG_OFFLINE_ROOT=/var
 fi
 
 # Install the java dbus service
@@ -18,9 +18,7 @@ cp $IPKG_OFFLINE_ROOT/etc/event.d/${PID} /etc/event.d/${PID}
 
 # Remove obsolete packages
 /usr/bin/ipkg -o /var remove com.pregame.prelease
-/usr/bin/ipkg -o /media/cryptofs/apps remove com.pregame.prelease
 /usr/bin/ipkg -o /var remove com.pregame.app.flashlight
-/usr/bin/ipkg -o /media/cryptofs/apps remove com.pregame.app.flashlight
 
 # Remove obsolete versions that were manually installed
 rm -f /etc/event.d/prelease
