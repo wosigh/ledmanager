@@ -26,7 +26,7 @@ public class LEDManager extends LunaServiceThread
 
   public LEDManager()
   {
-    this.hwVersion = "0.2.2";
+    this.hwVersion = "0.2.3";
     this.tmpFileName = "/tmp/ledshellscript.sh";
     this.tmpFile = new File (this.tmpFileName);
   }
