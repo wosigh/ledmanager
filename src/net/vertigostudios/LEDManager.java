@@ -4,14 +4,17 @@ import com.palm.luna.LSException;
 import com.palm.luna.service.LunaServiceThread;
 import com.palm.luna.service.ServiceMessage;
 //import java.io.BufferedReader;
-//import java.io.BufferedWriter;
+//import java.io.BufferedWriter
 //import java.io.File;
 //import java.io.FileWriter;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 //import java.io.InputStreamReader;
+import java.io.InputStreamReader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +26,7 @@ public class LEDManager extends LunaServiceThread
 
   public LEDManager()
   {
-    this.hwVersion = "1.0";
+    this.hwVersion = "0.2.2";
     this.tmpFileName = "/tmp/ledshellscript.sh";
     this.tmpFile = new File (this.tmpFileName);
   }
@@ -65,78 +68,98 @@ public class LEDManager extends LunaServiceThread
       //msg.respond("Flame off");
   }
 */
-@LunaServiceThread.PublicMethod
-public void flameOn(ServiceMessage msg) throws JSONException, LSException, IOException, InterruptedException {
+    @LunaServiceThread.PublicMethod
+    public void flameOn(ServiceMessage msg) throws JSONException, LSException, IOException, InterruptedException {
 
-    try {
-        //Check if file exists if it does then lets delete it to start fresh
-      if (this.tmpFile.exists()) {
-        this.tmpFile.delete();
-      }
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter(this.tmpFile));
-        bw.write("#!/bin/sh\n");
-
-        bw.write("echo -n 1 >/sys/class/i2c-adapter/i2c-2/2-0033/avin\n");
-        bw.write("echo -n 100mA >/sys/class/i2c-adapter/i2c-2/2-0033/torch_current\n");
-        bw.write("echo -n torch >/sys/class/i2c-adapter/i2c-2/2-0033/mode\n");
-
-        bw.write("exit 0\n");
-        bw.flush();
-        bw.close();
-    }
-    catch (Exception err) {
-    }
-  
-    Process p = null;
-    //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
-    p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
-    //p.waitFor();
-    //msg.respond("Flame on");
-
-    JSONObject reply = new JSONObject();
-    reply.put("returnValue",true);
-    msg.respond(reply.toString());
-
-}
-
-@LunaServiceThread.PublicMethod
-  public void flameOff(ServiceMessage msg) throws JSONException, LSException, IOException, InterruptedException {
-    try {
-        //Check if file exists if it does then lets delete it to start fresh
-        if (this.tmpFile.exists()) {
+        try {
+            //Check if file exists if it does then lets delete it to start fresh
+          if (this.tmpFile.exists()) {
             this.tmpFile.delete();
+          }
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(this.tmpFile));
+            bw.write("#!/bin/sh\n");
+
+            bw.write("echo -n 1 >/sys/class/i2c-adapter/i2c-2/2-0033/avin\n");
+            bw.write("echo -n 100mA >/sys/class/i2c-adapter/i2c-2/2-0033/torch_current\n");
+            bw.write("echo -n torch >/sys/class/i2c-adapter/i2c-2/2-0033/mode\n");
+
+            bw.write("exit 0\n");
+            bw.flush();
+            bw.close();
+        }
+        catch (Exception err) {
         }
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(this.tmpFile));
-        bw.write("#!/bin/sh\n");
-        bw.write("echo -n shutdown >/sys/class/i2c-adapter/i2c-2/2-0033/mode\n");
-        bw.write("echo -n 0mA >/sys/class/i2c-adapter/i2c-2/2-0033/torch_current\n");
-        bw.write("echo -n 0 >/sys/class/i2c-adapter/i2c-2/2-0033/avin\n");
-        bw.write("exit 0\n");
-        bw.flush();
-        bw.close();
-    }
-    catch (Exception err) {
+        Process p = null;
+        //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
+        p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
+        //p.waitFor();
+        //msg.respond("Flame on");
+
+        JSONObject reply = new JSONObject();
+        reply.put("returnValue",true);
+        msg.respond(reply.toString());
 
     }
 
-    Process p = null;
-    //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
-    p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
+    @LunaServiceThread.PublicMethod
+      public void flameOff(ServiceMessage msg) throws JSONException, LSException, IOException, InterruptedException {
+        try {
+            //Check if file exists if it does then lets delete it to start fresh
+            if (this.tmpFile.exists()) {
+                this.tmpFile.delete();
+            }
 
-    JSONObject reply = new JSONObject();
-    reply.put("returnValue",true);
-    msg.respond(reply.toString());
-      
-}
+            BufferedWriter bw = new BufferedWriter(new FileWriter(this.tmpFile));
+            bw.write("#!/bin/sh\n");
+            bw.write("echo -n shutdown >/sys/class/i2c-adapter/i2c-2/2-0033/mode\n");
+            bw.write("echo -n 0mA >/sys/class/i2c-adapter/i2c-2/2-0033/torch_current\n");
+            bw.write("echo -n 0 >/sys/class/i2c-adapter/i2c-2/2-0033/avin\n");
+            bw.write("exit 0\n");
+            bw.flush();
+            bw.close();
+        }
+        catch (Exception err) {
 
-@LunaServiceThread.PublicMethod
-    public void status(ServiceMessage msg) throws JSONException, LSException {
-    JSONObject reply = new JSONObject();
-    reply.put("returnValue",true);
-    msg.respond(reply.toString());
-}
+        }
+
+        Process p = null;
+        //p = Runtime.getRuntime().exec("chmod 744 /tmp/ledshellscript.sh");
+        p = Runtime.getRuntime().exec("/bin/sh "+this.tmpFileName);
+
+        JSONObject reply = new JSONObject();
+        reply.put("returnValue",true);
+        msg.respond(reply.toString());
+
+    }
+
+    @LunaServiceThread.PublicMethod
+    public void flameStatus(ServiceMessage msg) throws JSONException, LSException, IOException, InterruptedException {
+        BufferedReader input;
+        FileReader fr;
+        int value = 0;
+
+        try {
+          fr = new FileReader("/sys/class/i2c-adapter/i2c-2/2-0033/avin");
+          input = new BufferedReader(fr);
+          value = Integer.valueOf(input.readLine()).intValue();
+          input.close();
+          fr.close();
+        } catch (IOException e) {
+          value = 0;
+        }
+        StringBuilder sb = new StringBuilder(8192);
+        
+      sb.append("{status:");
+      sb.append(value);
+      sb.append("}");
+      msg.respond(sb.toString());
+        //if(value > 0)
+            //return true;
+        //else
+            //return false;
+    }
 
 }
 
